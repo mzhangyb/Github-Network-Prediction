@@ -3,39 +3,41 @@ import os
 import pandas as pd
 import json
 import gzip
-import wget
+# import wget
 from collections import defaultdict
 from variables import events
 
-def preprocess(date, directory): 
+def preprocess(date, raw_directory, preprocess_directory): 
 	"""
 	Preprocess gharchive for given date. Date format should be YYYY-MM-DD
 	"""
-	directory_path = directory + '/' + date + '/'
+# 	directory_path = directory + '/' + date + '/'
 	# url = 'https://data.gharchive.org/' + date + '-{0..23}.json.gz'
 	# raw_path = directory_path + 'raw/' 
-	if not os.path.exists(directory_path):
-		os.makedirs(raw_path)
+# 	if not os.path.exists(directory_path):
+# 		os.makedirs(raw_path)
 	# wget.download(url, out = raw_path)
 	repo_df = None
 	user_df = None
 	triplet_df = None
 	for i in range(24):
-		file_path = directory + '/' + date + '-' + str(i) + '.json.gz'
+		file_path = raw_directory + '/' + date + '/' + date + '-' + str(i) + '.json.gz'
 		sub_repo_df, sub_user_df, sub_triplet_df = preprocess_file(file_path)
 		if repo_df is None:
 			repo_df = pd.DataFrame(columns = sub_repo_df.columns)
 			user_df = pd.DataFrame(columns = sub_repo_df.columns)
-			triplet_df = pd.DataFrame(columns = sub_repo_df.columns)
+			triplet_df = pd.DataFrame(columns = ['user_id', 'user_name', 'event_type', 'repo_id', 'repo_name'])
 		repo_df = repo_df.append(sub_repo_df, sort = False)
 		user_df = user_df.append(sub_user_df, sort= False)
 		triplet_df = triplet_df.append(sub_triplet_df, sort = False)
 	# Get total count in one day for each 
 	repo_df = repo_df.groupby(['repo_id', 'repo_name']).sum().reset_index()
 	user_df = user_df.groupby(['user_id', 'user_name']).sum().reset_index()
-	repo_df.to_csv(directory_path + 'repos.csv', index = False)
-	user_df.to_csv(directory_path + 'users.csv', index = False)
-	triplet_df.to_csv(directory_path + 'triplets.csv', index = False)
+	if not os.path.exists(preprocess_directory + '/' + date):
+		os.mkdir(preprocess_directory + '/' + date)
+	repo_df.to_csv(preprocess_directory + '/' + date + '/' + 'repos.csv', index = False)
+	user_df.to_csv(preprocess_directory + '/' + date + '/' + 'users.csv', index = False)
+	triplet_df.to_csv(preprocess_directory + '/' + date + '/' + 'triplets.csv', index = False)
 
 def preprocess_file(file_path):
 	"""
@@ -90,7 +92,7 @@ def create_events_count_df(events_count_mapping, id_to_name_mapping, object_name
 	return df
 
 def main(argv):
-	preprocess(argv[0], argv[1])
+	preprocess(argv[0], argv[1], argv[2])
 
 if __name__ == '__main__':
 	main(sys.argv[1:])

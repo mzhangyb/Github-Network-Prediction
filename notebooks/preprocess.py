@@ -11,12 +11,6 @@ def preprocess(date, raw_directory, preprocess_directory):
 	"""
 	Preprocess gharchive for given date. Date format should be YYYY-MM-DD
 	"""
-# 	directory_path = directory + '/' + date + '/'
-	# url = 'https://data.gharchive.org/' + date + '-{0..23}.json.gz'
-	# raw_path = directory_path + 'raw/' 
-# 	if not os.path.exists(directory_path):
-# 		os.makedirs(raw_path)
-	# wget.download(url, out = raw_path)
 	repo_df = None
 	user_df = None
 	triplet_df = None
@@ -33,6 +27,8 @@ def preprocess(date, raw_directory, preprocess_directory):
 	# Get total count in one day for each 
 	repo_df = repo_df.groupby(['repo_id', 'repo_name']).sum().reset_index()
 	user_df = user_df.groupby(['user_id', 'user_name']).sum().reset_index()
+	if not os.path.exists(preprocess_directory):
+		os.mkdir(preprocess_directory)
 	if not os.path.exists(preprocess_directory + '/' + date):
 		os.mkdir(preprocess_directory + '/' + date)
 	repo_df.to_csv(preprocess_directory + '/' + date + '/' + 'repos.csv', index = False)

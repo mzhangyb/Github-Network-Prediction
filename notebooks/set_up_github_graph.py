@@ -1,23 +1,3 @@
-"""
-This script download data from GHArchive and process and load them into Neo4j
-database. It assumes:
-    1. A Neo4j server has be started and the max heap size should be set to 8G (Add dbms.memory.heap.max_size=8G to neo4j.conf).
-    2. Chrome and Selenium Chrome Driver (https://sites.google.com/a/chromium.org/chromedriver/downloads) are installed
-
-
-To download and process data without loading them into Neo4j database:
-    python set_up_github_graph.py --download_data --cores=<number of cpu cores to use> --past_days=<number of days of data to download>
-e.g.
-    python set_up_github_graph.py --download_data --cores=2 --past_days=1
-
-To load processed data into Neo4j database:
-    python set_up_github_graph.py --past_days=<number of days of data to oad> --load_data --neo4j_host=<neo4j endpoint> --neo4j_username=<neo4j username> --neo4j_password=<neo4j password> --create_graph
-e.g.
-    python set_up_github_graph.py --past_days=1 --load_data --neo4j_host=http://localhost:7474 --neo4j_username=neo4j --neo4j_password=research --create_graph
-
-(Downloading and processing 1-day worth of data takes ~ hour on my 2 core Mac.)
-"""
-
 import sys
 import datetime
 import os
@@ -120,8 +100,6 @@ if do_scrape and not OAUTH_TOKEN:
     sys.exit()
 
 process_directory = '../data/processed'
-if not os.path.exists(process_directory):
-    os.mkdir(process_directory)
 
 
 ######################## DOWNLOAD & PREPROCESS ########################

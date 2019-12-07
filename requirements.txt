@@ -2,8 +2,7 @@ dash
 networkx 
 plotly
 py2neo
-dask
-daskbag
+dasl[bag]
 numpy
 pandas
 tqdm

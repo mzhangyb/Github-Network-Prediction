@@ -62,7 +62,7 @@ parser.add_argument(
     default=2, type=int
 )
 parser.add_argument(
-    "--past_days", help="number of days of data to download starting from 2019-10-1, < 30 days",
+    "--days", help="number of days of data to download starting from 2019-10-1, < 30 days",
     default=1, type=int
 )
 parser.add_argument(
@@ -101,7 +101,7 @@ args = parser.parse_args()
 
 do_download = args.download_data
 N_PROCESSORS = args.cores
-past_days = args.past_days
+past_days = args.days
 do_load = args.load_data
 host = args.neo4j_host
 neo4j_user = args.neo4j_username

@@ -3,6 +3,7 @@ networkx
 plotly
 py2neo
 dask
+daskbag
 numpy
 pandas
 tqdm

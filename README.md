@@ -18,7 +18,7 @@ Github Explorer is a course project for MIT 6.S080. It is an end-to-end explorat
 
 # Exploring the Github Graph
 
-Run the Dashboard by `python dasg_dashboard.py`.
+Run the Dashboard by `python dash_dashboard.py`.
 
 The `Graph Layout` dropdown let us choose the graph layout algorithms. `Spring` would take much longer time to run compared with `Random`.
 

@@ -2,6 +2,8 @@
 
 Github Explorer is a course project for MIT 6.S080. It is an end-to-end exploration system that recommends users/repos based on common interest, categorizes users’ interests profile, and identifies rising stars in a field. This would allow users to further explore their interests and recruiters to identify candidates’ interests. 
 
+Link of UI Demo: https://www.youtube.com/watch?v=gd0T5My4pIY
+
 # Installation
 
 0. Dependencies:
